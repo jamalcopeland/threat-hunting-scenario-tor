@@ -63,6 +63,7 @@ DeviceProcessEvents
 | where ProcessCommandLine has_any("tor.exe", "firefox.exe")
 | project Timestamp, FileName, ProcessCommandLine, Account = AccountName
 
+//Connections made on Tor Browser
 DeviceNetworkEvents
 | where DeviceName == "malthreatvm"
 | where InitiatingProcessFileName has_any ("tor.exe", "firefox.exe")
