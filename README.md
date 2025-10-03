@@ -25,7 +25,7 @@ Management suspects that some employees may be using TOR browsers to bypass netw
 
 ### 1. Searched the `DeviceFileEvents` Table
 
-I searched the DeviceFileEvents table for any file that had the string “tor” in it and discovered that the user “employee” downloaded a Tor installer. This resulted in many Tor-related files being copied to the desktop and the creation of a file called `tor-shopping-list.txt` on the desktop. These events began at `2025-10-02T09:15:23.0000000Z`.
+I searched the DeviceFileEvents table for any file that had the string “tor” in it and discovered that the user “labuser” downloaded a Tor installer. This resulted in many Tor-related files being copied to the desktop and the creation of a file called `tor-shopping-list.txt` on the desktop. These events began at `2025-10-02T09:15:23.0000000Z`.
 
 **Query used to locate events:**
 
@@ -89,7 +89,7 @@ DeviceFileEvents
 
 ### 4. Searched the `DeviceProcessEvents` Table for TOR Browser Execution
 
-Searched the `DeviceProcessEvents` table for any indication that user “employee” actually opened the tor browser. There was evidence that they did open it at `2025-10-02T09:18:12.0000000Z`. There were several other instances of `firefox.exe` (Tor) as well as `tor.exe` spawned afterwards
+Searched the `DeviceProcessEvents` table for any indication that user “labuser” actually opened the tor browser. There was evidence that they did open it at `2025-10-02T09:18:12.0000000Z`. There were several other instances of `firefox.exe` (Tor) as well as `tor.exe` spawned afterwards
 
 
 **Query used to locate events:**
