@@ -66,6 +66,27 @@ DeviceProcessEvents
 
 ---
 
+### 3. Searched the `DeviceFileEvents` Table
+
+Searched the `DeviceFileEvents` table for any ProcessCommandLine that contained the string
+`"Tor-browser-windows-x86_64-portable-14.5.7.exe"`. Based on the logs, InitiatingCommandLine `"Tor-browser-windows-x86_64-portable-14.5.7.exe"` created two new files: `tor.exe` and `firefox.exe`.
+
+
+**Query used to locate event:**
+
+```kql
+// Tor browser or service was installed and is present on disk
+DeviceFileEvents
+| where FileName has_any ("tor.exe", "firefox.exe")
+| where DeviceName == "malthreatvm"
+| project Timestamp, FileName, DeviceName, ActionType, InitiatingProcessFileName
+```
+<img width="975" height="202" alt="image" src="https://github.com/user-attachments/assets/f38d2210-2d62-490a-b458-66da977ab93a" />
+
+
+
+---
+
 ### 4. Searched the `DeviceProcessEvents` Table for TOR Browser Execution
 
 Searched the `DeviceProcessEvents` table for any indication that user “employee” actually opened the tor browser. There was evidence that they did open it at `2025-09-29T19:16:21.9587075Z`. There were several other instances of `firefox.exe` (Tor) as well as `tor.exe` spawned afterwards
@@ -80,8 +101,7 @@ DeviceFileEvents
 | where DeviceName == "malthreatvm"
 | project Timestamp, FileName, DeviceName, ActionType, InitiatingProcessFileName
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/b13707ae-8c2d-4081-a381-2b521d3a0d8f">
-
+<img width="975" height="588" alt="image" src="https://github.com/user-attachments/assets/6a2f38b2-4b7a-4946-b445-04dd9294fa82" />
 ---
 
 ### 5. Searched the `DeviceNetworkEvents` Table for TOR Network Connections
@@ -91,15 +111,16 @@ Searched for any indication the TOR browser was used to establish a connection u
 **Query used to locate events:**
 
 ```kql
-DeviceNetworkEvents  
-| where DeviceName == "threat-hunt-lab"  
-| where InitiatingProcessAccountName != "system"  
-| where InitiatingProcessFileName in ("tor.exe", "firefox.exe")  
-| where RemotePort in ("9001", "9030", "9040", "9050", "9051", "9150", "80", "443")  
-| project Timestamp, DeviceName, InitiatingProcessAccountName, ActionType, RemoteIP, RemotePort, RemoteUrl, InitiatingProcessFileName, InitiatingProcessFolderPath  
+DeviceNetworkEvents
+| where DeviceName == "malthreatvm"
+| where InitiatingProcessFileName has_any ("tor.exe", "firefox.exe")
+| where RemotePort in (9001, 9030, 9040, 9050, 9051, 9150)
+| project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl
 | order by Timestamp desc
+
 ```
-<img width="1212" alt="image" src="https://github.com/user-attachments/assets/87a02b5b-7d12-4f53-9255-f5e750d0e3cb">
+<img width="975" height="219" alt="image" src="https://github.com/user-attachments/assets/57e4d3f1-e221-4e3e-b8e2-d848f2905d22" />
+
 
 ---
 
